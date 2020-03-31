@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "62758544861",
+    "firebase_url": "https://botanicappgarden.firebaseio.com",
+    "project_id": "botanicappgarden",
+    "storage_bucket": "botanicappgarden.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:62758544861:android:def89491257abbbeee4234",
+        "android_client_info": {
+          "package_name": "com.company.textrecg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "62758544861-n7ev6q8aj49jevtrs8a4s5oov3pdv80l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqQ0MtUI1o4VEkBn3zCQM4w1AbF8Bn4Ds"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "62758544861-n7ev6q8aj49jevtrs8a4s5oov3pdv80l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
