@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
@@ -12,10 +13,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.text.FirebaseVisionText
-
+import com.googlecode.tesseract.android.TessBaseAPI;
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var tessarect: TessarectOCR
     lateinit var imageView: ImageView
     lateinit var editText: EditText
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +26,7 @@ class MainActivity : AppCompatActivity() {
 
         imageView = findViewById(R.id.imageView)
         editText = findViewById(R.id.editText)
+        tessarect = TessarectOCR(this, R.raw.eng_traineddata)
     }
 
 
@@ -48,18 +51,23 @@ class MainActivity : AppCompatActivity() {
             editText.setText("")
             v.isEnabled = false
             val bitmap = (imageView.drawable as BitmapDrawable).bitmap
-            val image = FirebaseVisionImage.fromBitmap(bitmap)
-            val detector = FirebaseVision.getInstance().onDeviceTextRecognizer
+            if(v.id == R.id.firebase) {
+                val image = FirebaseVisionImage.fromBitmap(bitmap)
+                val detector = FirebaseVision.getInstance().onDeviceTextRecognizer
 
-            detector.processImage(image)
-                .addOnSuccessListener { firebaseVisionText ->
-                    v.isEnabled = true
-                    processResultText(firebaseVisionText)
-                }
-                .addOnFailureListener {
-                    v.isEnabled = true
-                    editText.setText("Failed")
-                }
+                detector.processImage(image)
+                    .addOnSuccessListener { firebaseVisionText ->
+                        v.isEnabled = true
+                        processResultText(firebaseVisionText)
+                    }
+                    .addOnFailureListener {
+                        v.isEnabled = true
+                        editText.setText("Failed")
+                    }
+            }else{
+                editText.setText( tessarect.detect(bitmap))
+                v.isEnabled = true;
+            }
         } else {
             Toast.makeText(this, "Select an Image First", Toast.LENGTH_LONG).show()
         }

@@ -26,10 +26,19 @@
                 android:onClick="selectImage"/>
 
         <Button
+            android:id="@+id/firebase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="startRecognizing"
-            android:text="Recognize Text" />
+            android:text="OCR Firebase" />
+
+        <Button
+            android:id="@+id/tesarract"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="startRecognizing"
+            android:text="OCR Tesarrect" />
     </LinearLayout>
 
 
