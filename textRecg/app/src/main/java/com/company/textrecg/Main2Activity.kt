@@ -2,14 +2,16 @@
 
 package com.company.textrecg
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.Manifest
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import android.os.Bundle
 import android.os.Environment
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import io.fotoapparat.Fotoapparat
@@ -17,16 +19,26 @@ import io.fotoapparat.configuration.CameraConfiguration
 import io.fotoapparat.log.logcat
 import io.fotoapparat.log.loggers
 import io.fotoapparat.parameter.ScaleType
-import io.fotoapparat.selector.*
+import io.fotoapparat.selector.back
+import io.fotoapparat.selector.front
+import io.fotoapparat.selector.off
+import io.fotoapparat.selector.torch
 import io.fotoapparat.view.CameraView
 import kotlinx.android.synthetic.main.activity_main2.*
 import java.io.File
+
 
 class Main2Activity : AppCompatActivity() {
 
     private var fotoapparat: Fotoapparat? = null
     private val filename = "test.png"
-    private val sd = Environment.getDataDirectory()
+    //private val sd = Environment.getDataDirectory()
+
+    // aruncare imagine in thread-ul de ocr
+
+    //https://github.com/RedApparat/Fotoapparat
+
+    val sd = Environment.getExternalStorageDirectory()
     private val dest = File(sd, filename)
     private var fotoapparatState : FotoapparatState? = null
     private var cameraStatus : CameraState? = null
@@ -51,10 +63,6 @@ class Main2Activity : AppCompatActivity() {
             finish()
         }
 
-//        fab_switch_camera.setOnClickListener {
-//            switchCamera()
-//        }
-//
         fab_flash.setOnClickListener {
             changeFlashState()
         }

@@ -5,15 +5,16 @@ import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.text.FirebaseVisionText
-import com.googlecode.tesseract.android.TessBaseAPI;
+import java.sql.Types.NULL
+
 
 class Main3Activity : AppCompatActivity() {
 
@@ -22,13 +23,12 @@ class Main3Activity : AppCompatActivity() {
     lateinit var editText: EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_main3)
 
         imageView = findViewById(R.id.imageView)
         editText = findViewById(R.id.editText)
         tessarect = TessarectOCR(this, R.raw.eng_traineddata)
     }
-
 
     fun selectImage(v: View) {
         //folosesc itenet pentru a permite user-ului sa aleaga ce imagine doreste
