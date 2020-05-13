@@ -2,7 +2,10 @@ apply plugin: 'com.android.application'
 //added
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
+apply plugin: 'idea'
 apply plugin: 'kotlin-android-extensions'
+
+
 
 android {
     compileSdkVersion 29

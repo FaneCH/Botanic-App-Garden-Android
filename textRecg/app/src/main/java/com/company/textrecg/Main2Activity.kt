@@ -2,14 +2,21 @@
 
 package com.company.textrecg
 
+import android.util.Log
 import android.Manifest
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -19,6 +26,7 @@ import io.fotoapparat.configuration.CameraConfiguration
 import io.fotoapparat.log.logcat
 import io.fotoapparat.log.loggers
 import io.fotoapparat.parameter.ScaleType
+import io.fotoapparat.result.transformer.scaled
 import io.fotoapparat.selector.back
 import io.fotoapparat.selector.front
 import io.fotoapparat.selector.off
@@ -26,19 +34,36 @@ import io.fotoapparat.selector.torch
 import io.fotoapparat.view.CameraView
 import kotlinx.android.synthetic.main.activity_main2.*
 import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.OutputStream
+import java.util.*
+import io.fotoapparat.result.transformer.scaled
+import android.view.View
+import android.widget.CompoundButton
+import io.fotoapparat.configuration.UpdateConfiguration
+import io.fotoapparat.log.logcat
+import io.fotoapparat.parameter.Flash
+import io.fotoapparat.parameter.Zoom
+import io.fotoapparat.result.transformer.scaled
+import io.fotoapparat.selector.*
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.math.roundToInt
+import io.fotoapparat.selector.*
+import kotlinx.android.synthetic.main.activity_main.*
+import io.fotoapparat.log.logcat
+import io.fotoapparat.result.transformer.scaled
+import io.fotoapparat.selector.*
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.math.roundToInt
 
 
 class Main2Activity : AppCompatActivity() {
 
     private var fotoapparat: Fotoapparat? = null
-    private val filename = "test.png"
+    private val filename = "test.jpeg"
     //private val sd = Environment.getDataDirectory()
-
-    // aruncare imagine in thread-ul de ocr
-
-    //https://github.com/RedApparat/Fotoapparat
-
-    val sd = Environment.getExternalStorageDirectory()
+    private val sd = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
     private val dest = File(sd, filename)
     private var fotoapparatState : FotoapparatState? = null
     private var cameraStatus : CameraState? = null
@@ -59,7 +84,8 @@ class Main2Activity : AppCompatActivity() {
         fotoapparatState = FotoapparatState.OFF
 
         fab_camera.setOnClickListener {
-            takePhoto()
+            //takePhoto()
+            takePicture()
             finish()
         }
 
@@ -105,16 +131,38 @@ class Main2Activity : AppCompatActivity() {
         if(cameraStatus == CameraState.BACK) cameraStatus = CameraState.FRONT
         else cameraStatus = CameraState.BACK
     }
+//functia efectiva de takepicture()
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
-    private fun takePhoto() {
-        if (hasNoPermissions()) {
-            requestPermission()
-        }else{
-            fotoapparat
-                ?.takePicture()
-                ?.saveToFile(dest)
-        }
+    private fun takePicture(): () -> Unit = {
+        val photoResult = fotoapparat
+            ?.autoFocus()
+            ?.takePicture()
+
+        photoResult
+            ?.saveToFile(File(
+                getExternalFilesDir("photos"),
+                "photo.jpg"
+            ))
+
+        val LOGGING_TAG = "Fotoapparat Example"
+// thumbnail
+        photoResult
+            ?.toBitmap(scaled(scaleFactor = 0.25f))
+            ?.whenAvailable { photo ->
+                photo
+                    ?.let {
+                        Log.i(LOGGING_TAG, "New photo captured. Bitmap length: ${it.bitmap.byteCount}")
+
+                        val imageView = findViewById<ImageView>(R.id.result) // nu vede id-ul care ar trebui asociat unei poze
+
+                        imageView.setImageBitmap(it.bitmap)
+                        imageView.rotation = (-it.rotationDegrees).toFloat()
+                    }
+                    ?: Log.e(LOGGING_TAG, "Couldn't capture photo.")
+            }
+
+
     }
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)

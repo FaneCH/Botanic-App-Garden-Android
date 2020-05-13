@@ -36,5 +36,12 @@
         android:layout_margin="32dp"
         app:backgroundTint="@android:color/white"/>
 
+    <ImageView
+        android:id="@+id/result"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="bottom|left"
+        tools:ignore="ContentDescription,RtlHardcoded" />
+
 </RelativeLayout>
 
