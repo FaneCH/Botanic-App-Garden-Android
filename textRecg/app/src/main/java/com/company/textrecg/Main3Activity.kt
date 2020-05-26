@@ -25,6 +25,8 @@ class Main3Activity : AppCompatActivity() {
     lateinit var tessarect: TessarectOCR
     lateinit var imageView: ImageView
     lateinit var editText: EditText
+    lateinit var tester: OCRTester
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main3)
@@ -32,6 +34,11 @@ class Main3Activity : AppCompatActivity() {
         imageView = findViewById(R.id.imageView)
         editText = findViewById(R.id.editText)
         tessarect = TessarectOCR(this, R.raw.eng_traineddata)
+
+        var testedInterfaces = ArrayList<ocrInterface>()
+        testedInterfaces.add(FirebaseOCR(FirebaseVision.getInstance().getOnDeviceTextRecognizer()))
+        testedInterfaces.add(TessarectOCR(this, R.raw.eng_traineddata))
+        tester = OCRTester(testedInterfaces, resources.openRawResource(R.raw.test_dictionary))
     }
 
     fun selectImage(v: View) {
@@ -48,6 +55,13 @@ class Main3Activity : AppCompatActivity() {
             imageView.setImageURI(data!!.data)
 
         }
+    }
+
+    fun runTest(v: View){
+        var word = tester.getRandomWord()
+        var image = tester.generateImage(word)
+        imageView.setImageBitmap(image)
+        onOCRSuccess(tester.runTests(word, image, this))
     }
 
     @RequiresApi(Build.VERSION_CODES.N)

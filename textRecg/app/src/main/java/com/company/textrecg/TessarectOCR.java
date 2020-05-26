@@ -32,6 +32,10 @@ public class TessarectOCR implements  ocrInterface{
         return tessarectAPI.getUTF8Text();
     }
 
+    public String getName(){
+        return "Tessarect";
+    }
+
     public void copyPack(Context app, int resurceId) {
         File dropPath = new File(app.getFilesDir().toString() + "/tessdata/");
         System.out.println("tessdata!");

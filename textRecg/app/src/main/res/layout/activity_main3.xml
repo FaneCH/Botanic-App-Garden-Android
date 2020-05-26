@@ -6,51 +6,62 @@
         android:orientation="vertical"
         android:padding="15dp">
 
-    <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_centerHorizontal="true"/>
-
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="250dp" />
+
+        <LinearLayout
             android:id="@+id/actionContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imageView"
             android:orientation="horizontal">
 
-        <Button
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Select Image"
-                android:onClick="selectImage"/>
+                android:onClick="selectImage"
+                android:text="Select Image" />
+
+            <Button
+                android:id="@+id/firebase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="startRecognizing"
+                android:text="OCR Firebase" />
+
+            <Button
+                android:id="@+id/tesarract"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="startRecognizing"
+                android:text="OCR Tesarrect" />
+        </LinearLayout>
 
         <Button
-            android:id="@+id/firebase"
-            android:layout_width="wrap_content"
+            android:id="@+id/button6"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="startRecognizing"
-            android:text="OCR Firebase" />
+            android:onClick="runTest"
+            android:text="RUN RANDOM IMAGE TEST" />
 
-        <Button
-            android:id="@+id/tesarract"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="startRecognizing"
-            android:text="OCR Tesarrect" />
+        <EditText
+                android:id="@+id/editText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+                android:gravity="top"
+                android:hint="Textul din poza va aparea aici."
+                android:inputType="textMultiLine"
+                android:padding="10dp" />
+
     </LinearLayout>
 
-
-    <EditText
-            android:id="@+id/editText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/actionContainer"
-            android:background="@android:color/transparent"
-            android:gravity="top"
-            android:inputType="textMultiLine"
-            android:padding="10dp"
-            android:hint="Textul din poza va aparea aici."/>
 
 </RelativeLayout>

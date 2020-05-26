@@ -23,6 +23,10 @@ public class FirebaseOCR implements ocrInterface {
         this.recognizer = recognizer;
     }
 
+    public String getName(){
+        return "Firebase";
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public String runOcrOnImage(Bitmap image) {
